@@ -1,0 +1,14 @@
+<!-- output data binding using string interpolation {{}} to get in the template the value of variables we have in the ts component file
+ inside {{}} we can write typescript expressions with the only requirement that it resolves or can be resolved to a string
+you cannot neither add block structures inside the string interpolation like a for or an if but you can use a ternary expression-->
+<!-- ngStyle is another built in directive that allows us to change styles of an element dynamically depending on an expression
+it is property binded and it expects to get a js object with a style property as a key and an expression as value
+in this case getColor will return a color depending if the server is offline or offline-->
+<!-- ngClass allows us to dynamically change css classes to an element instead styles 
+ig also takes a js object where the key is the class and the expression the condition for it to be rendered-->
+<p
+  [ngStyle]="{ backgroundColor: getColor() }"
+  [ngClass]="{ online: serverStatus === 'online' }"
+>
+  Server with ID {{ serverId }} is {{ getServerStatus() }}
+</p>

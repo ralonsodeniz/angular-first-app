@@ -1,0 +1,47 @@
+<label>Server name</label>
+<!-- to pass the event object that is created once an html event is triggered to a method we use $event reserved word -->
+<!-- input event reflects the value each keystroke in the input field -->
+<input
+  type="text"
+  class="form-control"
+  (input)="onUpdateServerName($event)"
+  [value]="serverName"
+/>
+<br />
+<!-- we have an easier way to do two way data binding, which is what we ended doing in the input above, using ngModel directive for forms
+this way we dont need a method to change the variable value when the event binding triggers ngModel takes care both of the output and the input binding thats why it is both property and event binded [()] 
+we assign the ngModel just to the property we want to show/modify by the interaction with the input html element
+it not only changes the value but also updates it if it is changed anywhere else-->
+<!-- directives are instruction to the DOM that searchs for a selector, in this case ngModel, and does something to the element related to that selector -->
+<!-- ngModel is an attribute directive, it does not add or remove elements from the DOM but changes the element it is placed on in some way -->
+<label>Server name with ngModel</label>
+<input type="text" class="form-control" [(ngModel)]="serverName" />
+
+<!-- output data binding using property binding [property]="expression" the expression can use variables or methods from the class component that have to resolve into the type required for the property in each case -->
+<!-- input data binding using event binding () in this case (click) triggers a method of the class component that changes the value of serverCreationStatus 
+keep in mind that event binding uses the same name for the events than html but without the initial "on"-->
+<!-- in some cases we can use either string interpolation or property binding, we can output the value of allowNewServer using {{allowNewServer}} or using [innerText]="allowNewServer" property -->
+<p>{{ serverName }}</p>
+<!-- code insider quotations in the property binding is already ts code so you do not need to use string interpolation {{}} -->
+<!-- usually when outputing the value as html text we use string interpolation -->
+<p [innerText]="serverName"></p>
+<button
+  [disabled]="!allowNewServer"
+  (click)="onCreateServer()"
+  class="btn btn-primary"
+>
+  Add server
+</button>
+<p>{{ serverCreationStatus }}</p>
+<!-- *ngIf directive allow us to show an element if a condition is fulfilled | the * means that ngIf is a structural directive, it changes the structure of the DOM -->
+<p *ngIf="serverCreated">Server was created! Name is {{ serverName }}</p>
+<!-- *ngIfElse, *ngIf="expression; else template", allows us to have a escape route in case the condition is not fulfilled 
+    we need to create a template (<ng-template>) with a reference (#whatever) that will be rendered in the else case-->
+<p *ngIf="serverCreated; else noServer">
+  Server was created! Name is {{ serverName }}
+</p>
+<ng-template #noServer>
+  <p>No server was created</p>
+</ng-template>
+<!-- *ngFor directive allows us to looping through an iterable and render the desired elements using the properties of that iteration -->
+<app-server *ngFor="let server of servers"></app-server>
